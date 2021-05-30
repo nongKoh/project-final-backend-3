@@ -47,7 +47,7 @@ const getJobByUsername = async (req, res, next) => {
             });
             res.send(jobsArray.filter((item) => item?.information?.username === username));
         }
-        res.status(200).send(response)
+        res.status(200).send(jobsArray)
     } catch (error) {
         res.status(400).send(error.message);
     }
@@ -96,7 +96,7 @@ const updateJobByUser = async (req,res, next) => {
         const id = req.body.id
         const job = await firestore.collection('jobs').doc(id)
         await job.update(data)
-        res.status(200).send(response)
+        res.status(200).send(data)
     } catch (error) {
         res.status(400).send(error.message);
     }
