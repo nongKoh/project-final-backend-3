@@ -45,7 +45,7 @@ const getJobByUsername = async (req, res, next) => {
                 }
                 jobsArray.push(job);
             });
-            res.send(jobsArray.filter((item) => item?.information?.username === username));
+            res.send(jobsArray.filter((item) => item.information.username === username));
         }
         res.status(200).send(jobsArray)
     } catch (error) {
