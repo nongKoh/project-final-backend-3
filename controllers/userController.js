@@ -11,7 +11,8 @@ const addUser = async (req, res, next) => {
         const datas = await users.get();
         const usersArray = [];
         if(datas.empty) {
-            res.status(404).send('No student record found');
+            await firestore.collection('users').doc().set(data);
+            res.status(200).send('Record saved successfuly');
         }else {
             datas.forEach(doc => {
                 const user = new User(
