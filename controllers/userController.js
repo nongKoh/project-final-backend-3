@@ -25,8 +25,7 @@ const addUser = async (req, res, next) => {
                 );
                 usersArray.push(user);
             });
-        }
-        const user = usersArray.filter((item) => (item.username === data.username) && item)
+            const user = usersArray.filter((item) => (item.username === data.username) && item)
         if(user.length !== 0) {
             const response = {
                 user: {},
@@ -37,6 +36,8 @@ const addUser = async (req, res, next) => {
             await firestore.collection('users').doc().set(data);
             res.status(200).send('Record saved successfuly');
         }
+        }
+        
     } catch (error) {
         res.status(400).send(error.message);
     }
