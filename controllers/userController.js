@@ -12,7 +12,7 @@ const addUser = async (req, res, next) => {
         const usersArray = [];
         if(datas.empty) {
             await firestore.collection('users').doc().set(data);
-            return res.status(200).send('Record saved successfuly');
+            res.status(200).send('Record saved successfuly');
         }else {
             datas.forEach(doc => {
                 const user = new User(
@@ -27,6 +27,7 @@ const addUser = async (req, res, next) => {
             });
         }
         const user = usersArray.filter((item) => (item.username === data.username) && item)
+        console.log(user)
         if(user.length !== 0) {
             const response = {
                 user: {},
