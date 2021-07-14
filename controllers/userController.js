@@ -27,7 +27,6 @@ const addUser = async (req, res, next) => {
             });
         }
         const user = usersArray.filter((item) => (item.username === data.username) && item)
-        console.log(user)
         if(user.length !== 0) {
             const response = {
                 user: {},
