@@ -18,29 +18,40 @@ const addJob = async (req, res, next) => {
 const getJobByUsername = async (req, res, next) => {
     try {
         const username = req.body.username
+        let data = []
         const jobs = await firestore.collection('jobs')
-        const data = await jobs.get();
+        await jobs.get().then(docs => {
+            
+            docs.forEach((doc, index) => {
+              data.push(doc.data())
+            })
+            });
         const jobsArray = [];
         if(data.empty) {
             res.status(404).send('No student record found');
         }else {
-            data.forEach(doc => {
+            data.forEach((doc,index) => {
+                console.log(doc)
+                console.log(index)
+                const id = `${doc.companyName}_${doc.username}_${doc.date}_${index+1}`
+                console.log(id)
                 const job = {
                     information: {
                         id:doc.id,
-                        status:doc.data().status,
-                        title:doc.data().title,
-                        companyName:doc.data().companyName,
-                        username:doc.data().username,
-                        date:doc.data().date
+                        status:doc.status,
+                        title:doc.title,
+                        companyName:doc.companyName,
+                        username:doc.username,
+                        date:doc.date
                     },
                     detail: {
-                        detail:doc.data().detail,
-                        long: doc.data().long,
-                        lat: doc.data().lat,
-                        record: doc.data().record,
-                        start: doc.data().start,
-                        stop: doc.data().stop,
+                        detail:doc.detail,
+                        long: doc.long,
+                        lat: doc.lat,
+                        record: doc.record,
+                        start: doc.start,
+                        stop: doc.stop,
+                        km: doc.km
                     }
                 }
                 jobsArray.push(job);
