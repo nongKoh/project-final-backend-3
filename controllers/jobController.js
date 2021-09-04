@@ -90,6 +90,7 @@ const getAllJob = async (req,res, next) => {
                         record: doc.data().record,
                         start: doc.data().start,
                         stop: doc.data().stop,
+                        km: doc.km
                     }
                 }
                 jobsArray.push(job);
