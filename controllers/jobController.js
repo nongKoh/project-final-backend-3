@@ -23,7 +23,7 @@ const getJobByUsername = async (req, res, next) => {
         await jobs.get().then(docs => {
             
             docs.forEach((doc, index) => {
-              data.push(doc.data())
+              data.push(doc)
             })
             });
         const jobsArray = [];
@@ -35,23 +35,24 @@ const getJobByUsername = async (req, res, next) => {
                 console.log(index)
                 const id = `${doc.companyName}_${doc.username}_${doc.date}_${index+1}`
                 console.log(id)
+                console.log(doc.id)
                 const job = {
                     information: {
                         id:doc.id,
-                        status:doc.status,
-                        title:doc.title,
-                        companyName:doc.companyName,
-                        username:doc.username,
-                        date:doc.date
+                        status:doc.data().status,
+                        title:doc.data().title,
+                        companyName:doc.data().companyName,
+                        username:doc.data().username,
+                        date:doc.data().date
                     },
                     detail: {
-                        detail:doc.detail,
-                        long: doc.long,
-                        lat: doc.lat,
-                        record: doc.record,
-                        start: doc.start,
-                        stop: doc.stop,
-                        km: doc.km
+                        detail:doc.data().detail,
+                        long: doc.data().long,
+                        lat: doc.data().lat,
+                        record: doc.data().record,
+                        start: doc.data().start,
+                        stop: doc.data().stop,
+                        km: doc.data().km
                     }
                 }
                 jobsArray.push(job);
@@ -107,6 +108,8 @@ const updateJobByUser = async (req,res, next) => {
         const data = req.body
         const id = req.body.id
         const job = await firestore.collection('jobs').doc(id)
+        console.log(data)
+        console.log(job)
         await job.update(data)
         res.status(200).send(data)
     } catch (error) {
