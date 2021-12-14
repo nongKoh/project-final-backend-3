@@ -13,7 +13,7 @@ const addUser = async (req, res, next) => {
         if(datas.empty) {
             await firestore.collection('users').doc().set(data);
             res.status(200).send('Record saved successfuly');
-        }else {
+        } else {
             datas.forEach(doc => {
                 const user = new User(
                     doc.id,
